@@ -39,7 +39,7 @@ export class EditProfile extends Component {
 					website: data.website,
 					address: data.address.street,
 					city: data.address.city,
-					postcode: data.address.postcode,
+					postcode: data.address.zipcode,
 				}
 				this.setState({ user: user });
 			}
@@ -186,102 +186,104 @@ export class EditProfile extends Component {
 						onFinishFailed={onFinishFailed}
 					>
 						<Row>
-							<Col xs={24} sm={24} md={24} lg={16}>
-								<Row gutter={ROW_GUTTER}>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="Name"
-											name="name"
-											rules={[
-												{
-													required: true,
-													message: 'Please input your name!',
-												},
-											]}
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="username"
-											name="username"
-											rules={[
-												{
-													required: true,
-													message: 'Please input your username!'
-												},
-											]}
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="Email"
-											name="email"
-											rules={[{ 
-												required: true,
-												type: 'email',
-												message: 'Please enter a valid email!' 
-											}]}
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="Date of Birth"
-											name="dateOfBirth"
-										>
-											<DatePicker className="w-100"/>
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="Phone Number"
-											name="phone"
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="Website"
-											name="website"
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={24}>
-										<Form.Item
-											label="Address"
-											name="address"
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="City"
-											name="city"
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-									<Col xs={24} sm={24} md={12}>
-										<Form.Item
-											label="Post code"
-											name="postcode"
-										>
-											<Input />
-										</Form.Item>
-									</Col>
-								</Row>
-								<Button type="primary" htmlType="submit">
-									Save Change
-								</Button>
+						<Col xs={24} sm={24} md={24} lg={16}>
+							<Row gutter={ROW_GUTTER}>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Имя"
+								name="name"
+								rules={[
+									{
+									required: true,
+									message: 'Пожалуйста, введите ваше имя!',
+									},
+								]}
+								>
+								<Input />
+								</Form.Item>
 							</Col>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Имя пользователя"
+								name="username"
+								rules={[
+									{
+									required: true,
+									message: 'Пожалуйста, введите ваше имя пользователя!',
+									},
+								]}
+								>
+								<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Электронная почта"
+								name="email"
+								rules={[
+									{
+									required: true,
+									type: 'email',
+									message: 'Пожалуйста, введите действительный адрес электронной почты!',
+									},
+								]}
+								>
+								<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Дата рождения"
+								name="dateOfBirth"
+								>
+								<DatePicker className="w-100" />
+								</Form.Item>
+							</Col>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Номер телефона"
+								name="phone"
+								>
+								<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Веб-сайт"
+								name="website"
+								>
+								<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} sm={24} md={24}>
+								<Form.Item
+								label="Адрес"
+								name="address"
+								>
+								<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Город"
+								name="city"
+								>
+								<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} sm={24} md={12}>
+								<Form.Item
+								label="Почтовый индекс"
+								name="postcode"
+								>
+								<Input />
+								</Form.Item>
+							</Col>
+							</Row>
+							<Button type="primary" htmlType="submit">
+								Сохранить изменения
+							</Button>
+						</Col>
 						</Row>
 					</Form>
 				</div>
