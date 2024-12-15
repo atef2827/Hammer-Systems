@@ -7,6 +7,7 @@ import { updateObjectPosition } from "redux/actions/selectedObjectsActions";
 const ObjectsFrame = () => {
   const dispatch = useDispatch();
   const savedObjects = useSelector((state) => state.selectedObjects.selectedObjects);
+  console.log(savedObjects);
   const [isGrid, setIsGrid] = useState(true);
 
   const toggleGrid = (checked) => {
@@ -14,11 +15,8 @@ const ObjectsFrame = () => {
   };
 
   const handleDragEnd = (event, info, index) => {
-    // Dispatch the final position to Redux on drag end
     const newX = info.point.x;
     const newY = info.point.y;
-    console.log('newX', newX);
-    console.log('newY', newY);
     dispatch(updateObjectPosition(index, { x: newX, y: newY }));
   };
 
@@ -63,7 +61,6 @@ const ObjectsFrame = () => {
             style={{
               position: "absolute",
               cursor: "grab",
-              transform: obj.rotate ? `rotate(${obj.rotate}deg)` : null,
             }}
             onDragEnd={(event, info) => handleDragEnd(event, info, index)} // Save position on drag end
           >
@@ -73,7 +70,9 @@ const ObjectsFrame = () => {
               style={{
                 maxWidth: "100px",
                 borderRadius: "8px",
-                pointerEvents: 'none'
+                pointerEvents: 'none',
+              transform: obj.rotate ? `rotate(${obj.rotate}deg)` : null,
+
               }}
             />
           </motion.div>

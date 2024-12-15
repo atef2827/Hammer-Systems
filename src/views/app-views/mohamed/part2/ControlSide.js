@@ -57,7 +57,7 @@ const ControlSide = () => {
 		<>
 		<Card>
 			<Tabs defaultActiveKey="1">
-				<Tabs.TabPane tab="все столи" key="1">
+				<Tabs.TabPane tab="все столы" key="1">
 					<div style={{ maxWidth: '100%', overflowX: 'scroll', display: 'flex' }}>
 						{
 							objectList.map((obj) => {
@@ -104,7 +104,7 @@ const ControlSide = () => {
 						}
 					</div>
 				</Tabs.TabPane>
-				<Tabs.TabPane tab="болшы стол" key="3">
+				<Tabs.TabPane tab="большие столы" key="3">
 					<div style={{ maxWidth: '100%', overflowX: 'scroll', display: 'flex' }}>
 					{
 							objectList.map((obj) => {
@@ -151,8 +151,8 @@ const ControlSide = () => {
 				style={{ marginTop: 20, color: "#fff" }}
 			>
 				<Row gutter={ROW_GUTTER}>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item label="Поворот (макс. 360°):" style={{ color: "#fff" }}>
+					<Col xs={24} sm={24} md={6}>
+						<Form.Item label="X" style={{ color: "#fff" }}>
 							<Input
 								type="number"
 								placeholder="X"
@@ -164,8 +164,8 @@ const ControlSide = () => {
 							/>
 						</Form.Item>
 					</Col>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item label="Поворот (макс. 360°):" style={{ color: "#fff" }}>
+					<Col xs={24} sm={24} md={6}>
+						<Form.Item label="Y" style={{ color: "#fff" }}>
 							<Input
 								type="number"
 								placeholder="Y"
@@ -177,11 +177,11 @@ const ControlSide = () => {
 							/>
 						</Form.Item>
 					</Col>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item label="Поворот (макс. 360°):" style={{ color: "#fff" }}>
+					<Col xs={24} sm={24} md={6}>
+						<Form.Item label="Поворот:" style={{ color: "#fff" }}>
 							<Input
 								type="number"
-								placeholder="Введите поворот"
+								placeholder="Введите поворот (макс. 360°)"
 								disabled={!selected}
 								max={360}
 								min={0}
@@ -190,11 +190,11 @@ const ControlSide = () => {
 							/>
 						</Form.Item>
 					</Col>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item label="размер (мин. 50%, макс. 100%):" style={{ color: "#fff" }}>
+					<Col xs={24} sm={24} md={6}>
+						<Form.Item label="размер:" style={{ color: "#fff" }}>
 							<Input
 								type="number"
-								placeholder="Ширина"
+								placeholder="Ширина (мин. 50%, макс. 100%)"
 								disabled={!selected}
 								max={100}
 								min={50}
