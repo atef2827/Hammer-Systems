@@ -73,6 +73,7 @@ const ControlSide = () => {
 										onClick={() => { selectObj(obj) }}
 										src={'/img/objects/'+obj.src} 
 										alt={obj.src}
+										key={obj.id}
 									/>
 								);
 							})
@@ -96,6 +97,7 @@ const ControlSide = () => {
 										onClick={() => { selectObj(obj) }}
 										src={'/img/objects/'+obj.src} 
 										alt={obj.src}
+										key={obj.id}
 									/>
 								);
 							})
@@ -119,6 +121,7 @@ const ControlSide = () => {
 										onClick={() => { selectObj(obj) }}
 										src={'/img/objects/'+obj.src} 
 										alt={obj.src}
+										key={obj.id}
 									/>
 								);
 							})

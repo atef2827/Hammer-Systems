@@ -1,56 +1,25 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Switch } from "antd";
+import { motion } from "framer-motion";
 import { updateObjectPosition } from "redux/actions/selectedObjectsActions";
 
 const ObjectsFrame = () => {
   const dispatch = useDispatch();
   const savedObjects = useSelector((state) => state.selectedObjects.selectedObjects);
   const [isGrid, setIsGrid] = useState(true);
-  const [draggingObject, setDraggingObject] = useState(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 }); // Track the mouse offset
-  const [localPositions, setLocalPositions] = useState(
-    savedObjects.reduce((acc, obj, index) => {
-      acc[index] = { x: obj.position_x || 0, y: obj.position_y || 0 };
-      return acc;
-    }, {})
-  );
 
   const toggleGrid = (checked) => {
     setIsGrid(checked);
   };
 
-  const handleMouseDown = (e, index) => {
-    const rect = e.target.getBoundingClientRect();
-    setDraggingObject(index);
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (draggingObject !== null) {
-      const rect = e.target.parentNode.getBoundingClientRect();
-      const newX = e.clientX - rect.left - dragOffset.x;
-      const newY = e.clientY - rect.top - dragOffset.y;
-	  console.log('newY', newY);
-	  console.log('newX', newX);
-
-		setLocalPositions((prev) => ({
-		  ...prev,
-		  [draggingObject]: { x: newX, y: newY },
-		}));
-    }
-  };
-
-  const handleMouseUp = () => {
-    if (draggingObject !== null) {
-      // Dispatch the final position to Redux
-      const finalPosition = localPositions[draggingObject];
-      dispatch(updateObjectPosition(draggingObject, finalPosition));
-      setDraggingObject(null); // Stop dragging
-    }
+  const handleDragEnd = (event, info, index) => {
+    // Dispatch the final position to Redux on drag end
+    const newX = info.point.x;
+    const newY = info.point.y;
+    console.log('newX', newX);
+    console.log('newY', newY);
+    dispatch(updateObjectPosition(index, { x: newX, y: newY }));
   };
 
   return (
@@ -63,9 +32,9 @@ const ObjectsFrame = () => {
           : "#000",
         color: "#fff",
         height: "90vh",
-        position: "relative", // Important for absolutely positioned children
+        position: "relative",
         padding: "0px 10px",
-        overflow: "hidden", // Prevent dragging outside the card
+        overflow: "hidden",
       }}
       headStyle={{ color: "#fff" }}
       extra={
@@ -74,22 +43,29 @@ const ObjectsFrame = () => {
           <Switch checked={isGrid} onChange={toggleGrid} />
         </div>
       }
-      onMouseMove={handleMouseMove} // Track mouse movements
-      onMouseUp={handleMouseUp} // Dispatch the final position on mouse release
     >
       {savedObjects.length > 0 ? (
         savedObjects.map((obj, index) => (
-          <div
+          <motion.div
             key={index}
+            drag
+            dragConstraints={{
+              top: 0,
+              left: 0,
+              right: 500,
+              bottom: 500,
+            }}
+            dragMomentum={false}
+            initial={{
+              x: obj.position_x || 0,
+              y: obj.position_y || 0,
+            }}
             style={{
-            //   position: "absolute",
-            //   left: localPositions[index].x + "px",
-            //   top: localPositions[index].y + "px",
-			...(obj.position_x !== undefined && obj.position_y !== undefined ? { position: "absolute", left: localPositions[index].x+ "px", top: localPositions[index].y+ "px", } : {}),
+              position: "absolute",
               cursor: "grab",
               transform: obj.rotate ? `rotate(${obj.rotate}deg)` : null,
             }}
-            onMouseDown={(e) => handleMouseDown(e, index)} // Start dragging
+            onDragEnd={(event, info) => handleDragEnd(event, info, index)} // Save position on drag end
           >
             <img
               src={`/img/objects/${obj.src}`}
@@ -97,9 +73,10 @@ const ObjectsFrame = () => {
               style={{
                 maxWidth: "100px",
                 borderRadius: "8px",
+                pointerEvents: 'none'
               }}
             />
-          </div>
+          </motion.div>
         ))
       ) : (
         <p style={{ color: "#fff", textAlign: "center" }}>No objects saved yet.</p>
