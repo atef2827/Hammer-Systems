@@ -17,3 +17,4 @@
 }
 
 .full .ant-skeleton-element { width: 100%; }
+.whiteImagesRow img { filter: invert(1); }
