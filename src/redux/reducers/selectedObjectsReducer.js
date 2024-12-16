@@ -10,17 +10,20 @@ const initialState = {
           ...state,
           selectedObjects: [...state.selectedObjects, action.payload],
         };
-      case "DELETE_OBJECT":
-        if(state.currentSelectedObject){
-          let index = state.currentSelectedObject.index+1;
-          let newimtes = state.selectedObjects.slice(index);
-          return {
-            ...state,
-            selectedObjects: newimtes,
-          };
-        }else{
-          return state;
-        }
+        case "DELETE_OBJECT":
+          if (action.payload && typeof action.payload.index === "number") {
+            // Create a shallow copy of the array
+            const newItems = [...state.selectedObjects];
+            
+            // Remove the item at the specified index
+            newItems.splice(action.payload.index, 1);
+        
+            return {
+              ...state,
+              selectedObjects: newItems,
+            };
+          }
+        
       case "DELETE_ALL":
         return {
           ...state,

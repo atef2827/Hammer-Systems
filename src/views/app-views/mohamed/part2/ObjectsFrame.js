@@ -14,10 +14,8 @@ const ObjectsFrame = () => {
   const selectedItem = useSelector(
     (state) => state.selectedObjects.currentSelectedObject
   );
-  const [isGrid, setIsGrid] = useState(true);
   const [dragConstraints, setDragConstraints] = useState(null);
   const containerRef = useRef(null);
-
 
   const handleSelect = (obj, index) => {
     dispatch(selectObject({ ...obj, index: index }));
@@ -55,9 +53,7 @@ const ObjectsFrame = () => {
         width: "100%",
         position: "relative",
         backgroundColor: "#000",
-        background: isGrid
-          ? "conic-gradient(from 90deg at 1px 1px, #000 90deg,#2d2121 0) calc(-1*2px) calc(-1*2px)/ calc(100%/12) calc(100%/12)"
-          : "#000",
+        background: "conic-gradient(from 90deg at 1px 1px, #000 90deg,#2d2121 0) calc(-1*2px) calc(-1*2px)/ calc(100%/12) calc(100%/12)",
         height: "90vh",
       }} 
     >
