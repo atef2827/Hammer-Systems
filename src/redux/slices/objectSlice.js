@@ -4,6 +4,7 @@ const objectSlice = createSlice({
   name: 'objects',
   initialState: {
     selectedObjects: [], // Global state to hold selected objects
+    currentSelectedObject: null
   },
   reducers: {
     addObject(state, action) {

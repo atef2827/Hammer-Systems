@@ -195,6 +195,14 @@ const MoNavbar = [{
           breadcrumb: true,
           submenu: []
         },
+        {
+          key: 'mohamed-objects',
+          path: `${APP_PREFIX_PATH}/mohamed/part2`,
+          title: 'sidenav.mohamed.part2',
+          icon: CodeOutlined,
+          breadcrumb: false,
+          submenu: []
+        },
       ]
     },
   ]

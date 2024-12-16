@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Button, Card, Input, Form, Tabs, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { addObject } from 'redux/actions/selectedObjectsActions';
-import { useDispatch } from 'react-redux';
+import { addObject, selectObject, updateCurrentSelected } from 'redux/actions/selectedObjectsActions';
+import { useDispatch, useSelector } from 'react-redux';
 import { ROW_GUTTER } from 'constants/ThemeConstant';
 
 const ControlSide = () => {
-	const [ selected, setSelected ] = useState();
+	// const [ selected, setSelected ] = useState();
+	const selected = useSelector((state) => state.selectedObjects.currentSelectedObject);
 	const [isBlocked, setIsBlocked] = useState(false);
 	const dispatch = useDispatch();
 	
@@ -25,14 +26,17 @@ const ControlSide = () => {
 		{ id: 12, chairsCount: 8, src: "table-8.png"},
 	];
 
-	const selectObj = (obj) => {
-		setSelected(obj);
+	const handleSelectObj = (obj) => {
+		if (obj) {
+			dispatch(selectObject(obj));
+		}
 	}
 
 	const handleAddObject = () => {
-		console.log('add');
+		// setSelected(null)
 		if (selected) {
 			dispatch(addObject(selected));
+			dispatch(selectObject(null));
 		}
 	}
 
@@ -46,10 +50,7 @@ const ControlSide = () => {
 
 	const handleInputChange = (key, value) => {
 		if (selected) {
-		  setSelected((prev) => ({
-			...prev,
-			[key]: value,
-		  }));
+			dispatch(updateCurrentSelected(selected.index, { ...selected, [key]: value }));
 		}
 	};
 
@@ -68,9 +69,9 @@ const ControlSide = () => {
 											margin: "10px", 
 											borderRadius: "12px", 
 											cursor: "pointer", 
-											outline: selected?.id === obj.id? "solid red 5px": "solid transparent 0px" 
+											outline: selected && typeof selected.index === "undefined" && selected?.id === obj.id? "solid red 5px": "solid transparent 0px" 
 										}} 
-										onClick={() => { selectObj(obj) }}
+										onClick={() => { handleSelectObj(obj) }}
 										src={'/img/objects/'+obj.src} 
 										alt={obj.src}
 										key={obj.id}
@@ -92,9 +93,9 @@ const ControlSide = () => {
 											margin: "10px", 
 											borderRadius: "12px", 
 											cursor: "pointer", 
-											outline: selected?.id === obj.id? "solid red 5px": "solid transparent 0px" 
+											outline: selected && typeof selected.index === "undefined" && selected?.id === obj.id? "solid red 5px": "solid transparent 0px" 
 										}} 
-										onClick={() => { selectObj(obj) }}
+										onClick={() => { handleSelectObj(obj) }}
 										src={'/img/objects/'+obj.src} 
 										alt={obj.src}
 										key={obj.id}
@@ -116,9 +117,9 @@ const ControlSide = () => {
 											margin: "10px", 
 											borderRadius: "12px", 
 											cursor: "pointer", 
-											outline: selected?.id === obj.id? "solid red 5px": "solid transparent 0px" 
+											outline: selected && typeof selected.index === "undefined" && selected?.id === obj.id? "solid red 5px": "solid transparent 0px" 
 										}} 
-										onClick={() => { selectObj(obj) }}
+										onClick={() => { handleSelectObj(obj) }}
 										src={'/img/objects/'+obj.src} 
 										alt={obj.src}
 										key={obj.id}
@@ -151,46 +152,21 @@ const ControlSide = () => {
 				style={{ marginTop: 20, color: "#fff" }}
 			>
 				<Row gutter={ROW_GUTTER}>
-					<Col xs={24} sm={24} md={6}>
-						<Form.Item label="X" style={{ color: "#fff" }}>
-							<Input
-								type="number"
-								placeholder="X"
-								disabled={!selected}
-								max={360}
-								min={0}
-								value={selected?.position_x || ""}
-								onChange={(e) => handleInputChange("position_x", e.target.value)}
-							/>
-						</Form.Item>
-					</Col>
-					<Col xs={24} sm={24} md={6}>
-						<Form.Item label="Y" style={{ color: "#fff" }}>
-							<Input
-								type="number"
-								placeholder="Y"
-								disabled={!selected}
-								max={360}
-								min={0}
-								value={selected?.position_y || ""}
-								onChange={(e) => handleInputChange("position_y", e.target.value)}
-							/>
-						</Form.Item>
-					</Col>
-					<Col xs={24} sm={24} md={6}>
+					<Col xs={24} sm={24} md={12}>
 						<Form.Item label="Поворот:" style={{ color: "#fff" }}>
 							<Input
 								type="number"
 								placeholder="Введите поворот (макс. 360°)"
 								disabled={!selected}
 								max={360}
+								htmlMax='360'
 								min={0}
 								value={selected?.rotate || ""}
 								onChange={(e) => handleInputChange("rotate", e.target.value)}
 							/>
 						</Form.Item>
 					</Col>
-					<Col xs={24} sm={24} md={6}>
+					<Col xs={24} sm={24} md={12}>
 						<Form.Item label="размер:" style={{ color: "#fff" }}>
 							<Input
 								type="number"
@@ -209,8 +185,8 @@ const ControlSide = () => {
 		</Card>
 
 		{
-                selected? 
-                    <div style={{ display: 'block', textAlign: "right", marginTop: '10px' }}>
+                selected && typeof selected.index === "undefined"? 
+                    <div style={{ display: 'block', textAlign: "right", margin: '10px 0px' }}>
                         <Button 
                             type="primary" 
                             icon={<PlusOutlined /> }
@@ -225,4 +201,4 @@ const ControlSide = () => {
 	)
 }
 
-export default ControlSide
+export default ControlSide;
