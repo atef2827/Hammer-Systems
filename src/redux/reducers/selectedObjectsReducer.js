@@ -11,7 +11,6 @@ const initialState = {
           selectedObjects: [...state.selectedObjects, action.payload],
         };
         case "DELETE_OBJECT":
-          if (action.payload && typeof action.payload.index === "number") {
             // Create a shallow copy of the array
             const newItems = [...state.selectedObjects];
             
@@ -22,7 +21,6 @@ const initialState = {
               ...state,
               selectedObjects: newItems,
             };
-          }
         
       case "DELETE_ALL":
         return {
